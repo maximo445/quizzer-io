@@ -1,18 +1,24 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Question from "./components/Question";
+import FinalResult from "./components/FinalResult";
+
+const initialAnswers = new Array(10).fill(null);
 
 function App() {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-
-  function handleAdvance() {
-    setCurrentQuestion((prevState) => ++prevState);
-  }
+  const [quizEnded, setQuizEnded] = useState(false);
+  const anwersRef = useRef([...initialAnswers]);
 
   return (
     <div className="flex justify-center items-center h-screen w-screen">
-      <div>
-        <Question question={currentQuestion} />
-        <button onClick={handleAdvance}>next</button>
+      <div className=" w-full sm:w-4/5">
+        {!quizEnded ? (
+          <Question
+            ref={anwersRef}
+            handleSetQuizEnded={setQuizEnded}
+          ></Question>
+        ) : (
+          <FinalResult finalResult={anwersRef.current}>Game Over</FinalResult>
+        )}
       </div>
     </div>
   );
