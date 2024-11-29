@@ -9,9 +9,9 @@ const Question = forwardRef(
   ({ handleSetQuizEnded, currentQuestion, setCurrentQuestion }, ref) => {
     const quesTionsRef = useRef(data);
     const current = quesTionsRef.current[currentQuestion];
-
-    console.log(current.question);
-
+    const [questionAnswered, setQuestionAnswered] = useState(() => {
+      return { option: null, isRight: null };
+    });
     const [decreaser, setDecreaser] = useState(50);
 
     function handleAdvance() {
@@ -27,9 +27,14 @@ const Question = forwardRef(
 
     function handleCheckAnswer(index, userAnswer, correctAnswer, question) {
       if (ref.current[index] === null) {
-        setDecreaser(400);
         const isUserRight = userAnswer === correctAnswer;
         ref.current[index] = { isUserRight, userAnswer, question };
+        setDecreaser(() => 400);
+        // Chat GPT what is wrong with the below line of code?
+        setQuestionAnswered({
+          isRight: isUserRight,
+          index: index,
+        });
       }
     }
 
@@ -39,8 +44,9 @@ const Question = forwardRef(
           time={TIME}
           decreaser={decreaser}
           toNextQuestion={handleAdvance}
+          handSetQuestionAnswerd={setQuestionAnswered}
         ></ProgressBar>
-        <h1 className="mb-3">{current.question}</h1>
+        <h1 className="mb-3 font-bold mt-5">{current.question}</h1>
         <ul className="flex flex-col items-center gap-2 w-4/5">
           {current.options.map((option, index) => (
             <li className="w-full" key={`${index}-${option}`}>
@@ -53,7 +59,17 @@ const Question = forwardRef(
                     current.question
                   )
                 }
-                className={` w-full text-slate-900 py-1 rounded-full bg-blue-500`}
+                className={` w-full text-slate-50 font-semibold py-1 rounded-full ${
+                  questionAnswered.index === index &&
+                  questionAnswered.isRight === true
+                    ? "bg-green-500"
+                    : ""
+                } ${
+                  questionAnswered.index === index &&
+                  questionAnswered.isRight === false
+                    ? "bg-red-500"
+                    : ""
+                } ${questionAnswered.index === null ? "bg-blue-500" : ""}`}
               >
                 {option}
               </button>
@@ -69,6 +85,8 @@ Question.displayName = "Question";
 
 Question.propTypes = {
   handleSetQuizEnded: PropTypes.func.isRequired,
+  currentQuestion: PropTypes.number.isRequired,
+  setCurrentQuestion: PropTypes.func.isRequired,
 };
 
 export default Question;

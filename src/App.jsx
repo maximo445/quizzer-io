@@ -4,6 +4,9 @@ import FinalResult from "./components/FinalResult";
 
 const initialAnswers = new Array(10).fill(null);
 
+const buttonStyling =
+  "px-4 py-2 bg-gray-200 text-gray-800 font-medium rounded-md border border-gray-300 hover:bg-gray-300 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-1";
+
 function App() {
   const [quizEnded, setQuizEnded] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
@@ -18,7 +21,7 @@ function App() {
   function restart() {
     setQuizStarted(false);
     setQuizEnded(false);
-    anwersRef.current([...initialAnswers]);
+    anwersRef.current = [...initialAnswers];
   }
 
   return (
@@ -28,7 +31,11 @@ function App() {
       }`}
     >
       <div className="w-4/6 flex justify-center">
-        {!quizStarted && <button onClick={handleStartQuiz}>Start Quiz</button>}
+        {!quizStarted && (
+          <button className={buttonStyling} onClick={handleStartQuiz}>
+            Start Quiz
+          </button>
+        )}
 
         {quizStarted && !quizEnded && (
           <Question
