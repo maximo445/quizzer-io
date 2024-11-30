@@ -46,7 +46,7 @@ const Question = forwardRef(
     }
 
     return (
-      <div className="flex flex-col justify-center items-center bg-purple-950 text-slate-50 w-8/9 rounded-lg p-8">
+      <div className="flex flex-col justify-center items-center bg-purple-950 text-slate-50 w-full rounded-lg p-8">
         <ProgressBar
           time={TIME}
           decreaser={decreaser}
@@ -69,7 +69,7 @@ const Question = forwardRef(
                     index
                   )
                 }
-                className={` w-full h-16 sm:h-10  text-slate-50 font-semibold py-1 rounded-full ${
+                className={` w-full h-16 text-slate-50 font-semibold py-1 rounded-full ${
                   questionAnswered.index === index &&
                   questionAnswered.isRight === true
                     ? "bg-green-500"
