@@ -25,7 +25,13 @@ const Question = forwardRef(
       }
     }
 
-    function handleCheckAnswer(index, userAnswer, correctAnswer, question) {
+    function handleCheckAnswer(
+      index,
+      userAnswer,
+      correctAnswer,
+      question,
+      optionIndex
+    ) {
       if (ref.current[index] === null) {
         const isUserRight = userAnswer === correctAnswer;
         ref.current[index] = { isUserRight, userAnswer, question };
@@ -33,7 +39,7 @@ const Question = forwardRef(
         // Chat GPT what is wrong with the below line of code?
         setQuestionAnswered({
           isRight: isUserRight,
-          index: index,
+          index: optionIndex,
         });
       }
     }
@@ -56,7 +62,8 @@ const Question = forwardRef(
                     currentQuestion,
                     option,
                     current.answer,
-                    current.question
+                    current.question,
+                    index
                   )
                 }
                 className={` w-full text-slate-50 font-semibold py-1 rounded-full ${
