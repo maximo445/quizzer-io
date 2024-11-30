@@ -30,7 +30,7 @@ function App() {
         quizEnded ? "h-full" : "h-screen"
       }`}
     >
-      <div className="w-4/6 flex justify-center">
+      <div className="w-full sm:w-4/6 flex justify-center">
         {!quizStarted && (
           <button className={buttonStyling} onClick={handleStartQuiz}>
             Start Quiz

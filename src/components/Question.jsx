@@ -35,25 +35,28 @@ const Question = forwardRef(
       if (ref.current[index] === null) {
         const isUserRight = userAnswer === correctAnswer;
         ref.current[index] = { isUserRight, userAnswer, question };
-        setDecreaser(() => 400);
         // Chat GPT what is wrong with the below line of code?
         setQuestionAnswered({
           isRight: isUserRight,
           index: optionIndex,
         });
+
+        setDecreaser(() => 400);
       }
     }
 
     return (
-      <div className="flex flex-col justify-center items-center bg-purple-950 text-slate-50 w-full rounded-lg p-8">
+      <div className="flex flex-col justify-center items-center bg-purple-950 text-slate-50 w-8/9 rounded-lg p-8">
         <ProgressBar
           time={TIME}
           decreaser={decreaser}
           toNextQuestion={handleAdvance}
           handSetQuestionAnswerd={setQuestionAnswered}
         ></ProgressBar>
-        <h1 className="mb-3 font-bold mt-5">{current.question}</h1>
-        <ul className="flex flex-col items-center gap-2 w-4/5">
+        <h1 className="text-2xl sm:text-xl mb-3 font-bold mt-5">
+          {current.question}
+        </h1>
+        <ul className="flex flex-col items-center gap-10 sm:gap-2 w-full sm:w-4/5">
           {current.options.map((option, index) => (
             <li className="w-full" key={`${index}-${option}`}>
               <button
@@ -66,7 +69,7 @@ const Question = forwardRef(
                     index
                   )
                 }
-                className={` w-full text-slate-50 font-semibold py-1 rounded-full ${
+                className={` w-full h-16 sm:h-10  text-slate-50 font-semibold py-1 rounded-full ${
                   questionAnswered.index === index &&
                   questionAnswered.isRight === true
                     ? "bg-green-500"
@@ -76,7 +79,7 @@ const Question = forwardRef(
                   questionAnswered.isRight === false
                     ? "bg-red-500"
                     : ""
-                } ${questionAnswered.index === null ? "bg-blue-500" : ""}`}
+                } ${questionAnswered.index !== index ? "bg-blue-500" : ""}`}
               >
                 {option}
               </button>
